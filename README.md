@@ -1,2 +1,2 @@
-# Coursera-Machine-Learning
-Coursera Machine Learning course from Stanford University and Andrew Ng
+# Stanford-Machine-Learning
+Stanford University Machine Learning on Coursera 
