@@ -15,13 +15,18 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
+for i = 1:m
 
+    % Make prediction on current set of features
+    prediction = sigmoid(X(i,:) * theta);
 
+    % Set prediction to 1 if greater than threshold
+    if (prediction >= 0.5)
+        p(i) = 1;
+    endif
 
-
-
+endfor 
 
 % =========================================================================
-
 
 end
