@@ -27,7 +27,7 @@ hypothesis = sigmoid(X*theta);
 costs = (-y .* log(hypothesis)) - ((1 -y) .* log(1 - hypothesis));
 
 % Compute total cost
-J = (1 / m) * sum(costs)
+J = (1 / m) * sum(costs);
 
 % Compute gradient for theta
 grad = (1 / m) * sum((hypothesis -y) .* X);
