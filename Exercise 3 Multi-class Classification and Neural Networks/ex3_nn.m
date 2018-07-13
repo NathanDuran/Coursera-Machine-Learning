@@ -40,7 +40,7 @@ m = size(X, 1);
 sel = randperm(size(X, 1));
 sel = sel(1:100);
 
-displayData(X(sel, :));
+%displayData(X(sel, :));
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -52,6 +52,8 @@ pause;
 fprintf('\nLoading Saved Neural Network Parameters ...\n')
 
 % Load the weights into variables Theta1 and Theta2
+% Theta1 has size 25 x 401
+% Theta2 has size 10 x 26
 load('ex3weights.mat');
 
 %% ================= Part 3: Implement Predict =================
