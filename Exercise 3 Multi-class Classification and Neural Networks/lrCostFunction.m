@@ -44,6 +44,7 @@ hypothesis = sigmoid(X*theta);
 costs = (-y .* log(hypothesis)) - ((1 -y) .* log(1 - hypothesis));
 
 % Compute regularisation term
+% Note: we ignore the bias (first row of theta)
 reg = (lambda / (2 * m)) * sum(theta(2:n,:).^2);
 
 % Compute total cost
