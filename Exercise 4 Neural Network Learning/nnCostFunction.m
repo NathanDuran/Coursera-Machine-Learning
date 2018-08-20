@@ -3,8 +3,8 @@ function [J grad] = nnCostFunction(nn_params, ...
                                    hidden_layer_size, ...
                                    num_labels, ...
                                    X, y, lambda)
-%NNCOSTFUNCTION Implements the neural network cost function for a two layer
-%neural network which performs classification
+% NNCOSTFUNCTION Implements the neural network cost function for a two layer
+% neural network which performs classification
 %   [J grad] = NNCOSTFUNCTON(nn_params, hidden_layer_size, num_labels, ...
 %   X, y, lambda) computes the cost and gradient of the neural network. The
 %   parameters for the neural network are "unrolled" into the vector
@@ -62,25 +62,41 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Convert the labels to one hot encodings
+y = sparse(1:numel(y), y,1);
 
+% ========== Feedforward ==========
+% Add ones to the X data matrix (for the bias unit in input)
+X = [ones(m, 1) X];
 
+% Hidden layer calculation
+% Transpose Theta1 to allow matrix multiplication
+% hidden = sigmoid( (5000 x 401) * (401 x 25) ) = (5000 x 25)
+hidden = sigmoid(X * Theta1');
+% Add ones to hidden (for the bias unit in hidden layer)
+% hidden = (5000 x 26)
+hidden = [ones(size(hidden,1), 1) hidden];
 
+% Output layer calculation
+hypothesis = sigmoid(hidden * Theta2');
 
+% ========== Cost function ==========
+% Calculate cost
+% The inside summation is over all output nodes (i.e 1 to num_labels)
+% The outside summation is over all training instances
+cost = (1 / m) * sum( sum( (-y .* log(hypothesis)) - ((1 -y) .* log(1 - hypothesis)) ));
 
+% Calculate regularization term
+% Note: we ignore the bias (first column of theta)
+Theta1_tmp = Theta1(:,2:end);
+Theta2_tmp = Theta2(:,2:end);
 
+% The inside summation is over a row of theta (i.e one nodes weights)
+% The outside summation is over rows of theta (i.e all nodes in a layer)
+reg = (lambda / (2 * m)) * (sum(sum( Theta1_tmp .^2, 2)) + sum(sum( Theta2_tmp .^2, 2)));
 
-
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
+% Add to cost for reqularized cost
+J = cost + reg;
 
 % =========================================================================
 
