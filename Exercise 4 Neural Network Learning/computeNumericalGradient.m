@@ -1,6 +1,6 @@
 function numgrad = computeNumericalGradient(J, theta)
-%COMPUTENUMERICALGRADIENT Computes the gradient using "finite differences"
-%and gives us a numerical estimate of the gradient.
+% COMPUTENUMERICALGRADIENT Computes the gradient using "finite differences"
+% and gives us a numerical estimate of the gradient.
 %   numgrad = COMPUTENUMERICALGRADIENT(J, theta) computes the numerical
 %   gradient of the function J around theta. Calling y = J(theta) should
 %   return the function value at theta.

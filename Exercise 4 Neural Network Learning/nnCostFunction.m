@@ -98,10 +98,38 @@ reg = (lambda / (2 * m)) * (sum(sum( Theta1_tmp .^2, 2)) + sum(sum( Theta2_tmp .
 % Add to cost for reqularized cost
 J = cost + reg;
 
+% ========== Backpropagation ==========
+
+% Calculate the difference between the output and actual labels
+output_sigma = hypothesis .- y;
+
+% Calculate the difference between the next layer (output) and hidden layer
+% Note: we need the inputs to the hidden layer (X * Theta1') not its activation (sigmoid(X * Theta1'))
+% so we need to add the bias vector to allow matrix multiplication.
+hidden_inputs = [ones(size((X * Theta1'), 1), 1) (X * Theta1')];
+hidden_sigma = (output_sigma * Theta2) .* sigmoidGradient(hidden_inputs);
+% Remove the bias vectors
+hidden_sigma = hidden_sigma(:,2:end);
+
+% Calculate gradients for hidden and output layers
+hidden_delta = (1 / m) .* (hidden_sigma' * X);
+output_delta = (1 / m) .* (output_sigma' * hidden);
+
+% Calculate regularisation term
+% Note: we ignore the bias (first column of theta) but need dimension to allow for matrix multiplication
+% so set to zeros
+Theta1_tmp = [zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
+Theta2_tmp = [zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
+
+Theta1_reg = (lambda / m) * Theta1_tmp;
+Theta2_reg = (lambda / m) * Theta2_tmp;
+
+% Add regularisation terms to gradients
+Theta1_grad = hidden_delta + Theta1_reg;
+Theta2_grad = output_delta + Theta2_reg;
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
