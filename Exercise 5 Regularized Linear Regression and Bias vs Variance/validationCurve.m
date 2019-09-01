@@ -1,7 +1,7 @@
 function [lambda_vec, error_train, error_val] = ...
     validationCurve(X, y, Xval, yval)
-%VALIDATIONCURVE Generate the train and validation errors needed to
-%plot a validation curve that we can use to select lambda
+% VALIDATIONCURVE Generate the train and validation errors needed to
+% plot a validation curve that we can use to select lambda
 %   [lambda_vec, error_train, error_val] = ...
 %       VALIDATIONCURVE(X, y, Xval, yval) returns the train
 %       and validation errors (in error_train, error_val)
@@ -27,17 +27,18 @@ error_val = zeros(length(lambda_vec), 1);
 %
 % Note: You can loop over lambda_vec with the following:
 %
-%       for i = 1:length(lambda_vec)
-%           lambda = lambda_vec(i);
-%           % Compute train / val errors when training linear 
-%           % regression with regularization parameter lambda
-%           % You should store the result in error_train(i)
-%           % and error_val(i)
-%           ....
-%           
-%       end
-%
-%
+for i = 1:length(lambda_vec)
+    lambda = lambda_vec(i);
+    % Compute train / val errors when training linear regression with regularization parameter lambda
+    % You should store the result in error_train(i) and error_val(i)
+    theta = trainLinearReg(X, y, lambda);
+    
+    [train_cost, grad] = linearRegCostFunction(X, y, theta, 0);
+    error_train(i) = train_cost;
+
+    [val_cost, grad] = linearRegCostFunction(Xval, yval, theta, 0);
+    error_val(i) = val_cost;
+endfor
 
 
 

@@ -19,19 +19,32 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+% Create vector of each row of X values multiplied by Theta Values
+hypothesis = X * theta;
 
+% Sum of square error (differences)
+total_error = sum((hypothesis - y) .^2);
 
+% Calculate regularization term
+% Note: we ignore the bias (first column of theta)
+cost_reg = (lambda / (2 * m)) * sum( theta(2:end,:) .^2);
 
+% Cost = average error
+J = (1/(2*m)) * total_error + cost_reg;
 
+% Calculate gradient
+delta = (1 / m) .* (X' * (hypothesis - y));
 
+% Note: we ignore the bias (first column of theta) but need dimension to allow for matrix multiplication
+% so set to zeros
+theta_tmp = [zeros(size(theta, 2)); theta(2:end,:)];
 
+grad_reg = (lambda / m) .* theta_tmp;
 
-
-
-
-
-% =========================================================================
+grad = delta + grad_reg;
 
 grad = grad(:);
+
+% =========================================================================
 
 end
